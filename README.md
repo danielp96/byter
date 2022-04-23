@@ -40,4 +40,5 @@ Simple vm in C for running compiled code, no interface with OS.
 - [ ] More detailed documentation.
 - [ ] Test in real FPGA.
 - [ ] Don't depend on apio for verilog?
+- [ ] Redo block diagram image for better visualizatoin without needing to be huge.
 
