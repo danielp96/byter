@@ -1,0 +1,3 @@
+-main Byter
+-cpp build
+-cmd cp build/Byter ./byterc
