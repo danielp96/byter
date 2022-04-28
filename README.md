@@ -24,7 +24,7 @@ Custom 8-bit CPU inspired by modified [Nibbler](https://www.bigmessowires.com/ni
 - When adding to program counter, lower nibble of register R13 is concatenated with register R12 for full 12-bits of address (PC += {R13[3:0], R12}).
 
 ## Compiler
-Simple compiler donde in (Haxe)[http://haxe.org/].
+Simple compiler done in [Haxe](http://haxe.org/).
 Support for:
 - Comments
 - Labels for function calls
