@@ -21,6 +21,7 @@ int main(int argc, char *argv[])
         exit(2);
     }
 
+    // TODO: gui, proper vm instead of proof of concept
 
     printf("PC     PROGRAM INSTR   OPRND    C  Z  RL  RM   IN_0    OUT_0   RAM_0\n");
 

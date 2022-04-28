@@ -95,7 +95,7 @@ uint16_t pop(stack *s);
 int byter_exec_op(byter_vm *b, uint16_t program);
 int byter_exec_next(byter_vm *b);
 int byter_run(byter_vm *b);
-int byter_reset(byter_vm *b);
+void byter_reset(byter_vm *b);
 void byter_stop(byter_vm *b);
 int byter_load_image_file(byter_vm *b, char *filename);
 
