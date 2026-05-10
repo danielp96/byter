@@ -6,9 +6,9 @@ module testbench();
     reg enable;
     reg [3:0] addr;
     reg [7:0] in_data;
-    wire [8:0] out_00, out_01, out_02, out_03, out_04, out_05, out_06, out_07, out_08, out_09, out_10, out_11, out_12, out_13, out_14, out_15;
+    wire [7:0] out_00, out_01, out_02, out_03, out_04, out_05, out_06, out_07, out_08, out_09, out_10, out_11, out_12, out_13, out_14, out_15;
 
-    out Out(clk, reset, enable, addr, in_data, out_00, out_01, out_02, out_03, out_04, out_05, out_06, out_07, out_08, out_09, out_10, out_11, out_12, out_13, out_14, out_15);
+    out_module Out(clk, reset, enable, addr, in_data, out_00, out_01, out_02, out_03, out_04, out_05, out_06, out_07, out_08, out_09, out_10, out_11, out_12, out_13, out_14, out_15);
 
     initial begin
         clk=0;

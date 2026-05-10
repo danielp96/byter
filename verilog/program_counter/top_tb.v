@@ -16,7 +16,7 @@ module testbench();
         clk=0; enable=0; pre_load=0; load=0; reset=0;
 
         $display("clk\tenable\treset\tload\t_preload\tvalue");
-        $monitor("%b\t%b\t%b\t%b\t%d\t%d\t",clk , enable, reset, load, pre_load, value);
+        $monitor("%b\t%b\t%b\t%b\t%d\t%d\t", clk, enable, reset, load, pre_load, value);
 
         #5 enable=1; pre_load=15; load=0; reset=0;
         #2 enable=1; pre_load=15; load=0; reset=0;

@@ -4,7 +4,7 @@ module byter (
     input [7:0]  in_port_00, in_port_01, in_port_02, in_port_03, in_port_04, in_port_05, in_port_06, in_port_07, in_port_08, in_port_09, in_port_10, in_port_11, in_port_12, in_port_13, in_port_14, in_port_15,
     output c_flag, z_flag,
     output [7:0] A, B, instr, oprnd, data_bus, out_port_00, out_port_01, out_port_02, out_port_03, out_port_04, out_port_05, out_port_06, out_port_07, out_port_08, out_port_09, out_port_10, out_port_11, out_port_12, out_port_13, out_port_14, out_port_15,
-    output [15:0] program,
+    output [15:0] program_word,
     output [11:0] pc, pc_load, address
 );
     
@@ -14,6 +14,7 @@ module byter (
     wire [15:0] _program;
     wire [11:0] _program_counter, _address, _pc_load, _pcadd, _pc_stack, _pcadd_data;
     wire [7:0] _instr, _oprnd, regA, regB, _data_bus, _alu, _rstack_data;
+    wire [3:0] _padd;
 
     assign c_flag = C;
     assign z_flag = Z;
@@ -22,7 +23,7 @@ module byter (
     assign instr = _instr;
     assign oprnd = _oprnd;
     assign data_bus = _data_bus;
-    assign program = _program;
+    assign program_word = _program;
     assign pc = _program_counter;
     assign pc_load = _pc_load;
     assign address = _address;
@@ -44,7 +45,7 @@ module byter (
 
     reg_module REG(clk, reset, regEn, litEn, memEn, _oprnd[7:4], _oprnd[3:0], _alu, _oprnd, regA, regB, _pcadd_data);
     alu ALU(regA, eAluB?_data_bus:regB, S, _oprnd[2:0], C, _alu, C_alu, Z_alu);
-    stack REG_STACK(clk, reset, csStackReg, weStackReg, { 4'h0, _data_bus}, _rstack_data);
+    stack REG_STACK(clk, reset, csStackReg, weStackReg, { 4'h0, _data_bus}, { _padd, _rstack_data});
 
     buffer_tri RSTACK_DATA(csStackReg && ~weStackReg, _rstack_data, _data_bus);
 

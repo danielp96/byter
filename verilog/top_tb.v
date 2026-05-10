@@ -4,7 +4,7 @@ module testbench();
     reg [7:0]  in_port_00, in_port_01, in_port_02, in_port_03, in_port_04, in_port_05, in_port_06, in_port_07, in_port_08, in_port_09, in_port_10, in_port_11, in_port_12, in_port_13, in_port_14, in_port_15;
     wire c_flag, z_flag;
     wire [7:0] A, B, instr, oprnd, data_bus, out_port_00, out_port_01, out_port_02, out_port_03, out_port_04, out_port_05, out_port_06, out_port_07, out_port_08, out_port_09, out_port_10, out_port_11, out_port_12, out_port_13, out_port_14, out_port_15;
-    wire [15:0] program;
+    wire [15:0] program_word;
     wire [11:0] pc, pc_load, address;
 
     byter BYTER(clk, reset,
@@ -12,7 +12,7 @@ module testbench();
                 c_flag, z_flag,
                 A, B, instr, oprnd, data_bus,
                 out_port_00, out_port_01, out_port_02, out_port_03, out_port_04, out_port_05, out_port_06, out_port_07, out_port_08, out_port_09, out_port_10, out_port_11, out_port_12, out_port_13, out_port_14, out_port_15,
-                program, pc, pc_load, address
+                program_word, pc, pc_load, address
                 );
 
     initial begin

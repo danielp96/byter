@@ -5,8 +5,8 @@ module testbench();
     reg clk;
     reg enabled;
     reg reset;
-    reg [7:0] in_data;
-    wire [7:0] out_data;
+    reg [15:0] in_data;
+    wire [15:0] out_data;
 
     fetch Fetch(clk, enabled, reset, in_data, out_data);
 

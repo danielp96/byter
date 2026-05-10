@@ -4,10 +4,10 @@ module testbench ();
     reg reset;
     reg enable;
     reg w_enable;
-    reg [3:0] data_in;
-    wire [3:0] data_out;
+    reg [11:0] data_in;
+    wire [11:0] data_out;
 
-    stack_8x4 Stack(clk, reset, enable, w_enable, data_in, data_out);
+    stack Stack(clk, reset, enable, w_enable, data_in, data_out);
 
     initial begin
         clk=0; reset=0; enable=0; w_enable=0; data_in=4'h0;
@@ -66,6 +66,7 @@ module testbench ();
 
 
         #2 $finish;
+        $dumpvars(0, Stack);
     end
 
     always begin
@@ -75,7 +76,6 @@ module testbench ();
 
     initial begin
         $dumpfile("top_tb.vcd");
-        $dumpvars(0, Stack);
     end
 
 endmodule

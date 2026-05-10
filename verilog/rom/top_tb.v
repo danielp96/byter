@@ -3,7 +3,7 @@
 module testbench();
 
     reg [11:0] addr;
-    wire [7:0] data;
+    wire [15:0] data;
 
     rom ROM(addr, data);
 

@@ -3,14 +3,14 @@
 module testbench();
 
     reg enable;
-    reg [3:0] in;
-    wire [3:0] out;
+    reg [7:0] in;
+    wire [7:0] out;
 
     buffer_tri BUFFER(enable, in, out);
 
     initial begin
 
-        $display("enable\tin\tout");
+        $display("enable\tin\t\tout");
         $monitor("%b\t%b\t%b\t", enable, in, out);
 
            enable=0; in=0;

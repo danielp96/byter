@@ -6,14 +6,14 @@ module testbench();
     reg [3:0] SA, SB;
     reg [7:0] data, lit;
     wire [7:0] A, B;
-    wire [12:0] pcAddData;
+    wire [11:0] pcAddData;
 
     reg_module RMOD(clk, reset, regEn, litEn, memEn, SA, SB, data, lit, A, B, pcAddData);
 
     initial begin
        clk=0; reset=0; regEn=0; litEn=0; memEn=0; SA=4'h0; SB=4'h0; data=8'h00; lit=8'h00;
 
-       $display("\nclk\treset\tregEn\tlitEn\tmemEn\tSA\tSB\tdata\tlit\tA\tB");
+       $display("\nclk\tzreset\tregEn\tlitEn\tmemEn\tSA\tSB\tdata\tlit\tA\tB");
        $monitor("%b\t%b\t%b\t%b\t%b\t%h\t%h\t%h\t%h\t%h\t%h\t", clk, reset, regEn, litEn, memEn, SA, SB, data, lit, A, B);
 
        #1 reset=1;
