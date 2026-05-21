@@ -1,4 +1,4 @@
-module testbench ();
+module alu_tb ();
     reg [7:0] A, B;
     reg [3:0] S;
     reg [2:0] n;
@@ -15,7 +15,7 @@ module testbench ();
         // test result counters
         countTotal=0; countPass=0; countFail=0;
         logFile = $fopen("alu.log", "w");
-        $fwrite(logFile, "Test Name: %s, Module Tested: %s\n", "Alu Test", "Alu");
+        log(logFile, $sformatf("Test Name: %s, Module Tested: %s\n", "Alu Test", "Alu"));
 
         // initial state
         S=4'b0000; A=8'b0000_0000; B=8'b0000_0000; C_in=0; n=3'b000;
@@ -25,140 +25,145 @@ module testbench ();
 
         // logic operations
         expected = testPassB(8'b0000_0010, 8'b0000_0001);
-        #1 log(logFile, "Pass B", Y==expected);
+        #1 logResult(logFile, "Pass B", Y==expected);
 
         expected = testAnd(8'b0000_0011, 8'b0000_0110);
-        #1 log(logFile, "AND", Y==expected);
+        #1 logResult(logFile, "AND", Y==expected);
 
         expected = testOr(8'b0000_0011, 8'b0000_0110);
-        #1 log(logFile, "OR", Y==expected);
+        #1 logResult(logFile, "OR", Y==expected);
 
         expected = testNot(8'b1111_1111, 8'b0000_0000);
-        #1 log(logFile, "NOT", Y==expected);
+        #1 logResult(logFile, "NOT", Y==expected);
 
         expected = testXor(8'b1111_1111, 8'b0101_1010);
-        #1 log(logFile, "XOR", Y==expected);
+        #1 logResult(logFile, "XOR", Y==expected);
 
 
         // add
         expected = testAdd(8'b0000_1111, 8'b0110_0001);
-        #1 log(logFile, "ADD", Y==expected);
+        #1 logResult(logFile, "ADD", Y==expected);
 
         expected = testAdd(8'b0000_1111, 8'b1111_0001);
-        #1 log(logFile, "ADD overflow", Y==expected);
+        #1 logResult(logFile, "ADD overflow", Y==expected);
 
 
         // sub
         expected = testSub(8'b0000_1000, 8'b0000_0001);
-        #1 log(logFile, "SUB", Y==expected);
+        #1 logResult(logFile, "SUB", Y==expected);
 
         expected = testSub(8'b0000_0000, 8'b0000_0001);
-        #1 log(logFile, "SUB underflow", Y==expected);
+        #1 logResult(logFile, "SUB underflow", Y==expected);
 
         expected = testSub(8'b0000_0001, 8'b0000_0001);
-        #1 log(logFile, "SUB zero", Y==expected);
+        #1 logResult(logFile, "SUB zero", Y==expected);
 
 
         // swap nibbles
         expected = testSwap(8'b1001_0110, 8'b1111_0000);
-        #1 log(logFile, "SWAP", Y==expected);
+        #1 logResult(logFile, "SWAP", Y==expected);
 
         // left shift, no carry
         expected = testLeftShift(8'b1001_0110, 8'b1000_1111);
-        #1 log(logFile, "Left Shift no carry", Y==expected);
+        #1 logResult(logFile, "Left Shift no carry", Y==expected);
 
         // left shift, carry
         expected = testLeftShiftCarry(8'b1001_0110, 8'b1000_1111, 0);
-        #1 log(logFile, "Left Shift with carry", Y==expected);
+        #1 logResult(logFile, "Left Shift with carry", Y==expected);
 
         expected = testLeftShiftCarry(8'b1001_0110, 8'b0000_1111, 1);
-        #1 log(logFile, "Left Shift with carry", Y==expected);
+        #1 logResult(logFile, "Left Shift with carry", Y==expected);
 
 
         // right shift, no carry
         expected = testRightShift(8'b1001_0110, 8'b1111_0001);
-        #1 log(logFile, "Right Shift no carry", Y==expected);
+        #1 logResult(logFile, "Right Shift no carry", Y==expected);
 
         // right shift, carry
         expected = testLeftShiftCarry(8'b1001_0110, 8'b1111_0001, 0);
-        #1 log(logFile, "Right Shift with carry", Y==expected);
+        #1 logResult(logFile, "Right Shift with carry", Y==expected);
 
         expected = testLeftShiftCarry(8'b1001_0110, 8'b1111_0000, 0);
-        #1 log(logFile, "Right Shift with carry", Y==expected);
+        #1 logResult(logFile, "Right Shift with carry", Y==expected);
 
         // increase B
         expected = testIncrease(8'b1001_0110, 8'b0000_0011);
-        #1 log(logFile, "Increase B", Y==expected);
+        #1 logResult(logFile, "Increase B", Y==expected);
 
         expected = testIncrease(8'b1001_0110, 8'b1111_1111);
-        #1 log(logFile, "Increase B overflow", Y==expected);
+        #1 logResult(logFile, "Increase B overflow", Y==expected);
 
         // decrease B
         expected = testDecrease(8'b1001_0110, 8'b0000_0011);
-        #1 log(logFile, "Decrease B", Y==expected);
+        #1 logResult(logFile, "Decrease B", Y==expected);
 
         expected = testDecrease(8'b1001_0110, 8'b0000_0000);
-        #1 log(logFile, "Decrease B underflow", Y==expected);
+        #1 logResult(logFile, "Decrease B underflow", Y==expected);
 
         // clear n bit of B
         expected = testClearBit(8'b1111_1111, 3'b000);
-        #1 log(logFile, "Clear Bit", Y==expected);
+        #1 logResult(logFile, "Clear Bit", Y==expected);
 
         expected = testClearBit(8'b1111_1111, 3'b001);
-        #1 log(logFile, "Clear Bit", Y==expected);
+        #1 logResult(logFile, "Clear Bit", Y==expected);
 
         expected = testClearBit(8'b1111_1111, 3'b010);
-        #1 log(logFile, "Clear Bit", Y==expected);
+        #1 logResult(logFile, "Clear Bit", Y==expected);
 
         expected = testClearBit(8'b1111_1111, 3'b011);
-        #1 log(logFile, "Clear Bit", Y==expected);
+        #1 logResult(logFile, "Clear Bit", Y==expected);
 
         expected = testClearBit(8'b1111_1111, 3'b100);
-        #1 log(logFile, "Clear Bit", Y==expected);
+        #1 logResult(logFile, "Clear Bit", Y==expected);
 
         expected = testClearBit(8'b1111_1111, 3'b101);
-        #1 log(logFile, "Clear Bit", Y==expected);
+        #1 logResult(logFile, "Clear Bit", Y==expected);
 
         expected = testClearBit(8'b1111_1111, 3'b110);
-        #1 log(logFile, "Clear Bit", Y==expected);
+        #1 logResult(logFile, "Clear Bit", Y==expected);
 
         expected = testClearBit(8'b1111_1111, 3'b111);
-        #1 log(logFile, "Clear Bit", Y==expected);
+        #1 logResult(logFile, "Clear Bit", Y==expected);
 
 
         // set n bit of B
         expected = testSetBit(8'b0000_0000, 3'b000);
-        #1 log(logFile, "Set Bit", Y==expected);
+        #1 logResult(logFile, "Set Bit", Y==expected);
 
         expected = testSetBit(8'b0000_0000, 3'b001);
-        #1 log(logFile, "Set Bit", Y==expected);
+        #1 logResult(logFile, "Set Bit", Y==expected);
 
         expected = testSetBit(8'b0000_0000, 3'b010);
-        #1 log(logFile, "Set Bit", Y==expected);
+        #1 logResult(logFile, "Set Bit", Y==expected);
 
         expected = testSetBit(8'b0000_0000, 3'b011);
-        #1 log(logFile, "Set Bit", Y==expected);
+        #1 logResult(logFile, "Set Bit", Y==expected);
 
         expected = testSetBit(8'b0000_0000, 3'b100);
-        #1 log(logFile, "Set Bit", Y==expected);
+        #1 logResult(logFile, "Set Bit", Y==expected);
 
         expected = testSetBit(8'b0000_0000, 3'b101);
-        #1 log(logFile, "Set Bit", Y==expected);
+        #1 logResult(logFile, "Set Bit", Y==expected);
 
         expected = testSetBit(8'b0000_0000, 3'b110);
-        #1 log(logFile, "Set Bit", Y==expected);
+        #1 logResult(logFile, "Set Bit", Y==expected);
 
         expected = testSetBit(8'b0000_0000, 3'b111);
-        #1 log(logFile, "Set Bit", Y==expected);
+        #1 logResult(logFile, "Set Bit", Y==expected);
 
-        $write("Total: %d, Pass: %d, Fail: %d\n", countTotal, countPass, countFail);
-        $fwrite(logFile, "Total: %d, Pass: %d, Fail: %d\n", countTotal, countPass, countFail);
+        log(logFile, $sformatf("Total: %d, Pass: %d, Fail: %d\n", countTotal, countPass, countFail));
 
         $fclose(logFile);
         #2 $finish();
     end
 
-    function void log(integer file, input string name, input logic result);
+    function void log(integer file, string msg);
+        $write(msg);
+        $fwrite(file, msg);
+
+    endfunction
+
+    function void logResult(integer file, input string name, input logic result);
         string padding;
         string status;
         string msg;
@@ -185,11 +190,7 @@ module testbench ();
             msg = $sformatf("%s: %s,%s S=%b, A=%b, B=%b, C_in=%b, n=%b, Y=%b, C=%b, Z=%b\n",
                 status, name, padding, S, A, B, C_in, n, Y, C, Z);
 
-            // display to terminal
-            $write(msg);
-
-            // save to logfile
-            $fwrite(file, msg);
+            log(file, msg);
         end
     endfunction
 
