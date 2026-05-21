@@ -9,7 +9,7 @@ module alu_tb ();
     integer countTotal, countPass, countFail;
     integer logFile;
 
-    alu Alu(A, B, S, n, C_in, Y, C, Z);
+    alu Alu(.A(A), .B(B), .S(S), .n(n), .C_in(C_in), .Y(Y), .C(C), .Z(Z));
 
     initial begin
         // test result counters
@@ -20,8 +20,6 @@ module alu_tb ();
         // initial state
         S=4'b0000; A=8'b0000_0000; B=8'b0000_0000; C_in=0; n=3'b000;
         #1
-        // $display("\nS\tA\t\tB\t\tC_in\tn\tY\t\tC\tZ");
-        // $monitor("%b\t%b\t%b\t%b\t%d\t%b\t%b\t%b\t", S, A, B, C_in, n, Y, C, Z);
 
         // logic operations
         expected = testPassB(8'b0000_0010, 8'b0000_0001);
@@ -157,13 +155,13 @@ module alu_tb ();
         #2 $finish();
     end
 
-    function void log(integer file, string msg);
+    function static void log(integer file, string msg);
         $write(msg);
         $fwrite(file, msg);
 
     endfunction
 
-    function void logResult(integer file, input string name, input logic result);
+    function automatic void logResult(integer file, input string name, input logic result);
         string padding;
         string status;
         string msg;
@@ -195,21 +193,21 @@ module alu_tb ();
     endfunction
 
     // set the alu inputs
-    function void setInput(
-            input [3:0] _S,
-            input [7:0] _A,
-            input [7:0] _B,
-            input _C,
-            input [3:0] _n
+    function automatic void setInput(
+            input reg [3:0] _S,
+            input reg [7:0] _A,
+            input reg [7:0] _B,
+            input bit _C,
+            input reg [3:0] _n
         );
         begin
             S=_S; A=_A; B=_B; C_in=_C; n=_n;
         end
     endfunction
 
-    function [7:0] testPassB(
-            input [7:0] _A,
-            input [7:0] _B
+    function automatic [7:0] testPassB(
+            input reg [7:0] _A,
+            input reg [7:0] _B
         );
         begin
             setInput(4'b0000, _A, _B, 0, 0);
@@ -217,9 +215,9 @@ module alu_tb ();
         end
     endfunction
 
-    function [7:0] testAnd(
-            input [7:0] _A,
-            input [7:0] _B
+    function automatic [7:0] testAnd(
+            input reg [7:0] _A,
+            input reg [7:0] _B
         );
         begin
             setInput(4'b0001, _A, _B, 0, 0);
@@ -227,9 +225,9 @@ module alu_tb ();
         end
     endfunction
 
-    function [7:0] testOr(
-            input [7:0] _A,
-            input [7:0] _B
+    function automatic [7:0] testOr(
+            input reg [7:0] _A,
+            input reg [7:0] _B
         );
         begin
             setInput(4'b0010, _A, _B, 0, 0);
@@ -237,9 +235,9 @@ module alu_tb ();
         end
     endfunction
 
-    function [7:0] testNot(
-            input [7:0] _A,
-            input [7:0] _B
+    function automatic [7:0] testNot(
+            input reg [7:0] _A,
+            input reg [7:0] _B
         );
         begin
             setInput(4'b0011, _A, _B, 0, 0);
@@ -247,9 +245,9 @@ module alu_tb ();
         end
     endfunction
 
-    function [7:0] testXor(
-            input [7:0] _A,
-            input [7:0] _B
+    function automatic [7:0] testXor(
+            input reg [7:0] _A,
+            input reg [7:0] _B
         );
         begin
             setInput(4'b0100, _A, _B, 0, 0);
@@ -258,9 +256,9 @@ module alu_tb ();
     endfunction
 
     // set the inputs for an addition and calculate expected value
-    function [7:0] testAdd(
-            input [7:0] _A,
-            input [7:0] _B
+    function automatic [7:0] testAdd(
+            input reg [7:0] _A,
+            input reg [7:0] _B
         );
         begin
             setInput(4'b0101, _A, _B, 0, 0);
@@ -269,9 +267,9 @@ module alu_tb ();
     endfunction
 
     // set the inputs for an substraction and calculate expected value
-    function [7:0] testSub(
-            input [7:0] _A,
-            input [7:0] _B
+    function automatic [7:0] testSub(
+            input reg [7:0] _A,
+            input reg [7:0] _B
         );
         begin
             setInput(4'b0110, _A, _B, 0, 0);
@@ -279,9 +277,9 @@ module alu_tb ();
         end
     endfunction
 
-    function [7:0] testSwap(
-            input [7:0] _A,
-            input [7:0] _B
+    function automatic [7:0] testSwap(
+            input reg [7:0] _A,
+            input reg [7:0] _B
         );
         begin
             setInput(4'b0111, _A, _B, 0, 0);
@@ -289,9 +287,9 @@ module alu_tb ();
         end
     endfunction
 
-    function [7:0] testLeftShift(
-            input [7:0] _A,
-            input [7:0] _B
+    function automatic [7:0] testLeftShift(
+            input reg [7:0] _A,
+            input reg [7:0] _B
         );
         begin
             setInput(4'b1000, _A, _B, 0, 0);
@@ -299,10 +297,10 @@ module alu_tb ();
         end
     endfunction
 
-    function [7:0] testLeftShiftCarry(
-            input [7:0] _A,
-            input [7:0] _B,
-            input _C
+    function automatic [7:0] testLeftShiftCarry(
+            input reg [7:0] _A,
+            input reg [7:0] _B,
+            input bit _C
         );
         begin
             setInput(4'b1001, _A, _B, _C, 0);
@@ -310,9 +308,9 @@ module alu_tb ();
         end
     endfunction
 
-    function [7:0] testRightShift(
-            input [7:0] _A,
-            input [7:0] _B
+    function automatic [7:0] testRightShift(
+            input reg [7:0] _A,
+            input reg [7:0] _B
         );
         begin
             setInput(4'b1010, _A, _B, 0, 0);
@@ -320,10 +318,10 @@ module alu_tb ();
         end
     endfunction
 
-    function [7:0] testRightShiftCarry(
-            input [7:0] _A,
-            input [7:0] _B,
-            input _C
+    function automatic [7:0] testRightShiftCarry(
+            input reg [7:0] _A,
+            input reg [7:0] _B,
+            input bit _C
         );
         begin
             setInput(4'b1011, _A, _B, _C, 0);
@@ -331,9 +329,9 @@ module alu_tb ();
         end
     endfunction
 
-    function [7:0] testIncrease(
-            input [7:0] _A,
-            input [7:0] _B
+    function automatic [7:0] testIncrease(
+            input reg [7:0] _A,
+            input reg [7:0] _B
         );
         begin
             setInput(4'b1100, _A, _B, 0, 0);
@@ -341,9 +339,9 @@ module alu_tb ();
         end
     endfunction
 
-    function [7:0] testDecrease(
-            input [7:0] _A,
-            input [7:0] _B
+    function automatic [7:0] testDecrease(
+            input reg [7:0] _A,
+            input reg [7:0] _B
         );
         begin
             setInput(4'b1101, _A, _B, 0, 0);
@@ -351,9 +349,9 @@ module alu_tb ();
         end
     endfunction
 
-    function [7:0] testClearBit(
-            input [7:0] _A,
-            input [7:0] _n
+    function automatic [7:0] testClearBit(
+            input reg [7:0] _A,
+            input reg [7:0] _n
         );
         begin
             setInput(4'b1110, _A, 0, 0, _n);
@@ -361,9 +359,9 @@ module alu_tb ();
         end
     endfunction
 
-    function [7:0] testSetBit(
-            input [7:0] _A,
-            input [7:0] _n
+    function automatic [7:0] testSetBit(
+            input reg [7:0] _A,
+            input reg [7:0] _n
         );
         begin
             setInput(4'b1111, _A, 0, 0, _n);
